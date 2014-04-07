@@ -23,14 +23,6 @@ git config --global push.default simple
 git config --global user.name "mkota"
 git config --global user.email jg.emmanuel@outlook.com
 
-cd ~/.emacs.d
-git clone https://github.com/Fuco1/smartparens.git
-wget https://github.com/magnars/dash.el
-wget http://adamspiers.org/computing/elisp/smooth-scrolling.el
-wget http://orgmode.org/org-8.2.5h.tar.gz
-tar xzvf org-8.2.5h.tar.gz
-rm -f org-8.2.5h.tar.gz
-
 mkdir -p ~/repos
 cd ~/repos
 git clone https://github.com/mkota/dotfiles.git
@@ -42,6 +34,14 @@ ln -sf ~/repos/dotfiles/screenrc ~/.screenrc
 ln -sf ~/repos/dotfiles/octaverc ~/.octaverc
 source ~/.profile
 source ~/.bashrc
+
+cd ~/.emacs.d
+git clone https://github.com/Fuco1/smartparens.git
+wget https://github.com/magnars/dash.el
+wget http://adamspiers.org/computing/elisp/smooth-scrolling.el
+wget http://orgmode.org/org-8.2.5h.tar.gz
+tar xzvf org-8.2.5h.tar.gz
+rm -f org-8.2.5h.tar.gz
 
 ssh-keygen -t rsa -C "jg.emmanuel@outlook.com"
 ssh-agent /bin/bash
