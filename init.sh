@@ -36,9 +36,8 @@ source ~/.profile
 source ~/.bashrc
 
 cd ~/.emacs.d
-git clone https://github.com/Fuco1/smartparens.git
-wget https://github.com/magnars/dash.el
 wget http://adamspiers.org/computing/elisp/smooth-scrolling.el
+wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-mode.el
 wget http://orgmode.org/org-8.2.5h.tar.gz
 tar xzvf org-8.2.5h.tar.gz
 rm -f org-8.2.5h.tar.gz
