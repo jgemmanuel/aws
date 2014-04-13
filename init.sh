@@ -17,7 +17,7 @@ sudo apt-get update -qy
 sudo apt-get install -y emacs24 emacs24-el emacs24-common-non-dfsg
 
 # Install everything else
-sudo apt-get install -y git aspell r-base ess nodejs npm tree texlive auctex octave
+sudo apt-get install -y git aspell r-base ess nodejs npm tree texlive latexmk auctex octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g express stylus jade
 
@@ -40,6 +40,7 @@ ln -sf ~/repos/dotfiles/bashrc_custom ~/.bashrc_custom
 ln -sf ~/repos/dotfiles/profile ~/.profile
 ln -sf ~/repos/dotfiles/screenrc ~/.screenrc
 ln -sf ~/repos/dotfiles/octaverc ~/.octaverc
+ln -sf ~/repos/dotfiles/latexmkrc ~/.latexmkrc
 source ~/.profile
 source ~/.bashrc
 
