@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/bin/bash
 rsync -av --delete /home/ubuntu/{data,repos} /mnt/ebs/content/
