@@ -17,7 +17,7 @@ sudo apt-get update -qy
 sudo apt-get install -y emacs24 emacs24-el emacs24-common-non-dfsg
 
 # Install everything else
-sudo apt-get install -y git aspell r-base ess nodejs npm tree texlive latexmk auctex octave
+sudo apt-get install -y git aspell r-base ess nodejs npm tree texlive texlive-latex-extra latexmk auctex octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g express stylus jade
 
@@ -49,6 +49,7 @@ wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-m
 wget http://orgmode.org/org-8.2.5h.tar.gz -P $EMACS
 tar xzvf $EMACS/org-8.2.5h.tar.gz
 rm -f $EMACS/org-8.2.5h.tar.gz
+git clone https://github.com/brianc/jade-mode.git $EMACS
 
 git clone git@bitbucket.org:mkota/custom.git $REPO
 mkdir -p ~/texmf/tex/latex
