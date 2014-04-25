@@ -11,13 +11,10 @@ sudo mkdir -m 000 /mnt/ebs
 echo "/dev/xvdb /mnt/ebs auto noatime 0 0" | sudo tee -a /etc/fstab
 sudo mount /mnt/ebs
 
-# Emacs
+# Update for emacs repository and install all packages
 sudo add-apt-repository ppa:cassou/emacs
-sudo apt-get update -qy
-sudo apt-get install -y emacs24 emacs24-el emacs24-common-non-dfsg
-
-# Install everything else
-sudo apt-get install -y git aspell r-base ess nodejs npm tree texlive texlive-latex-extra latexmk auctex octave
+sudo apt-get update -q
+sudo apt-get install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree texlive texlive-latex-extra latexmk auctex octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g express stylus jade
 
@@ -26,14 +23,14 @@ git config --global push.default simple
 git config --global user.name "mkota"
 git config --global user.email jg.emmanuel@outlook.com
 
-ssh-keygen -t rsa -C "jg.emmanuel@outlook.com"
+ssh-keygen -t rsa -C "jg.emmanuel@outlook.com" && sleep 2s # check for bugs with sleep
 ssh-agent /bin/bash
 ssh-add ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub
 
 read -p "Setup github and hit ENTER"
 
-git clone git@github.com:mkota/dotfiles.git $REPO
+git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
 ln -sf ~/repos/dotfiles/emacs.d ~/.emacs.d
 ln -sf ~/repos/dotfiles/bashrc ~/.bashrc
 ln -sf ~/repos/dotfiles/bashrc_custom ~/.bashrc_custom
@@ -46,18 +43,15 @@ source ~/.bashrc
 
 wget http://adamspiers.org/computing/elisp/smooth-scrolling.el -P $EMACS
 wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-mode.el -P $EMACS
-wget http://orgmode.org/org-8.2.5h.tar.gz -P $EMACS
-tar xzvf $EMACS/org-8.2.5h.tar.gz
-rm -f $EMACS/org-8.2.5h.tar.gz
-git clone https://github.com/brianc/jade-mode.git $EMACS
+git clone https://github.com/brianc/jade-mode.git $EMACS/jade-mode
 
-git clone git@bitbucket.org:mkota/custom.git $REPO
+git clone git@bitbucket.org:mkota/custom.git $REPO/custom
 mkdir -p ~/texmf/tex/latex
 ln -sf ~/repos/custom/latex/*.sty ~/texmf/tex/latex/
 
 # Cron
-git clone git@github.org:mkota/aws.git $REPO
-sudo cp $REPO/aws/backup /etc/cron.hourly/
-sudo chmod +x /etc/cron.hourly/backup
+git clone git@github.org:mkota/aws.git $REPO/aws
+# sudo cp $REPO/aws/backup /etc/cron.hourly/
+# sudo chmod +x /etc/cron.hourly/backup
 
 echo "Init done."
