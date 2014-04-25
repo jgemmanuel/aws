@@ -33,15 +33,12 @@ cat ~/.ssh/$SSHFILE.pub
 read -p "Setup github and hit ENTER"
 
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
-ln -sf ~/repos/dotfiles/emacs.d ~/.emacs.d
 ln -sf ~/repos/dotfiles/bashrc ~/.bashrc
 ln -sf ~/repos/dotfiles/bashrc_custom ~/.bashrc_custom
-ln -sf ~/repos/dotfiles/profile ~/.profile
+ln -sf ~/repos/dotfiles/emacs.d $EMACS
 ln -sf ~/repos/dotfiles/screenrc ~/.screenrc
-ln -sf ~/repos/dotfiles/octaverc ~/.octaverc
 ln -sf ~/repos/dotfiles/latexmkrc ~/.latexmkrc
-source ~/.profile
-source ~/.bashrc
+ln -sf ~/repos/dotfiles/octaverc ~/.octaverc
 
 wget http://adamspiers.org/computing/elisp/smooth-scrolling.el -P $EMACS
 wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-mode.el -P $EMACS
@@ -54,14 +51,7 @@ wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -P $TMP
 tar xzvf $TMP/install-tl-unx.tar.gz -d $TMP
 sudo perl $TMP/install-tl-20140417/install-tl --profile $REPO/aws/texlive.profile
 rm -rf $TMP
-cat<<EOF >> ~/.profile
-# texlive paths
-PATH=/usr/local/texlive/2013/bin/x86_64-linux:$PATH; export PATH
-MANPATH=/usr/local/texlive/2013/texmf-dist/doc/man:$MANPATH; export MANPATH
-INFOPATH=/usr/local/texlive/2013/texmf-dist/doc/info:$INFOPATH; export INFOPATH
-EOF
-source ~/.profile
-sudo env PATH=$PATH tlmgr install latexmk # fix this with tlmgr internal variables
+sudo env PATH=$PATH tlmgr install latexmk # fix this with tlmgr internal variables. also add standalone installation.
 
 git clone git@bitbucket.org:mkota/custom.git $REPO/custom
 mkdir -p ~/texmf/tex/latex
@@ -70,5 +60,22 @@ ln -sf ~/repos/custom/latex/*.sty ~/texmf/tex/latex/
 # Cron
 # sudo cp $REPO/aws/backup /etc/cron.hourly/
 # sudo chmod +x /etc/cron.hourly/backup
+
+# Environment variables et al
+cat<<EOF >> ~/.profile
+
+## Custom
+
+export SUDO_EDITOR=/usr/bin/emacs
+export LANG="en_GB.UTF-8"
+export LANGUAGE="en_GB:en_US:en"
+
+# texlive paths
+PATH=/usr/local/texlive/2013/bin/x86_64-linux:$PATH; export PATH
+MANPATH=/usr/local/texlive/2013/texmf-dist/doc/man:$MANPATH; export MANPATH
+INFOPATH=/usr/local/texlive/2013/texmf-dist/doc/info:$INFOPATH; export INFOPATH
+EOF
+source ~/.profile
+source ~/.bashrc
 
 echo "Init done."
