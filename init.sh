@@ -1,6 +1,7 @@
 #!/bin/bash
 
 HOME=/home/ubuntu
+EBS=/mnt/ebs
 EMACS=$HOME/.emacs.d
 REPO=$HOME/repos
 SSHFILE=id_rsa
@@ -8,9 +9,9 @@ SSHFILE=id_rsa
 sudo locale-gen en_GB.UTF-8
 
 # Mount EBS
-sudo mkdir -m 000 /mnt/ebs
+sudo mkdir -m 000 $EBS
 echo "/dev/xvdf /mnt/ebs auto noatime 0 0" | sudo tee -a /etc/fstab
-sudo mount /mnt/ebs
+sudo mount $EBS
 
 # Update for emacs repository and install all packages
 sudo add-apt-repository ppa:cassou/emacs
@@ -33,7 +34,6 @@ cat ~/.ssh/$SSHFILE.pub
 read -p "Setup github and hit ENTER"
 
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
-ln -sf ~/repos/dotfiles/bashrc ~/.bashrc
 ln -sf ~/repos/dotfiles/bashrc_custom ~/.bashrc_custom
 ln -sf ~/repos/dotfiles/emacs.d $EMACS
 ln -sf ~/repos/dotfiles/screenrc ~/.screenrc
@@ -74,6 +74,13 @@ export LANGUAGE="en_GB:en_US:en"
 PATH=/usr/local/texlive/2013/bin/x86_64-linux:$PATH; export PATH
 MANPATH=/usr/local/texlive/2013/texmf-dist/doc/man:$MANPATH; export MANPATH
 INFOPATH=/usr/local/texlive/2013/texmf-dist/doc/info:$INFOPATH; export INFOPATH
+EOF
+cat<<EOF >> .bashrc
+
+# Custom
+if [ -f ~/.bashrc_custom ]; then
+    . ~/.bashrc_custom
+fi
 EOF
 source ~/.profile
 source ~/.bashrc
