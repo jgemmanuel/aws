@@ -24,7 +24,7 @@ sudo npm install -g express stylus jade
 git config --global push.default simple
 git config --global user.name "mkota"
 
-ssh-keygen -t rsa -C "jg.emmanuel@outlook.com" -f $SSHFILE -N ""
+ssh-keygen -t rsa -f $SSHFILE -N ""
 ssh-agent /bin/bash
 ssh-add ~/.ssh/$SSHFILE
 cat ~/.ssh/$SSHFILE.pub
