@@ -16,15 +16,13 @@ sudo mount $EBS
 # Update for emacs repository and install all packages
 sudo add-apt-repository ppa:cassou/emacs
 sudo apt-get update -q
-# sudo apt-get install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree texlive texlive-latex-extra latexmk auctex octave
-sudo apt-get install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree auctex octave
+sudo apt-get install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g express stylus jade
 
 # Setup git, dot-files and custom
 git config --global push.default simple
 git config --global user.name "mkota"
-git config --global user.email jg.emmanuel@outlook.com
 
 ssh-keygen -t rsa -C "jg.emmanuel@outlook.com" -f $SSHFILE -N ""
 ssh-agent /bin/bash
@@ -34,11 +32,11 @@ cat ~/.ssh/$SSHFILE.pub
 read -p "Setup github and hit ENTER"
 
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
-ln -sf ~/repos/dotfiles/bashrc_custom ~/.bashrc_custom
-ln -sf ~/repos/dotfiles/emacs.d $EMACS
-ln -sf ~/repos/dotfiles/screenrc ~/.screenrc
-ln -sf ~/repos/dotfiles/latexmkrc ~/.latexmkrc
-ln -sf ~/repos/dotfiles/octaverc ~/.octaverc
+ln -sf $REPO/dotfiles/bashrc_custom ~/.bashrc_custom
+ln -sf $REPO/dotfiles/emacs.d $EMACS
+ln -sf $REPO/dotfiles/screenrc ~/.screenrc
+ln -sf $REPO/dotfiles/latexmkrc ~/.latexmkrc
+ln -sf $REPO/dotfiles/octaverc ~/.octaverc
 
 wget http://adamspiers.org/computing/elisp/smooth-scrolling.el -P $EMACS
 wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-mode.el -P $EMACS
@@ -55,7 +53,7 @@ sudo env PATH=$PATH tlmgr install latexmk # fix this with tlmgr internal variabl
 
 git clone git@bitbucket.org:mkota/custom.git $REPO/custom
 mkdir -p ~/texmf/tex/latex
-ln -sf ~/repos/custom/latex/*.sty ~/texmf/tex/latex/
+ln -sf $REPO/custom/latex/*.sty ~/texmf/tex/latex/
 
 # Cron
 # sudo cp $REPO/aws/backup /etc/cron.hourly/
