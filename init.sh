@@ -18,7 +18,7 @@ sudo add-apt-repository ppa:cassou/emacs
 sudo apt-get update -q
 sudo apt-get install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
-sudo npm install -g express stylus jade
+sudo npm install -g express-generator stylus jade nodemon
 
 # Setup git, dot-files and custom
 git config --global push.default simple
