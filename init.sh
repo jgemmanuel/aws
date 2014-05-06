@@ -1,5 +1,17 @@
 #!/bin/bash
 
+while true; do
+    read -p "Provide your email for the configuration: " EMAIL
+    echo "You entered: $EMAIL"
+    read -p "Should I proceed? [y/n/q]: " yn
+    case $yn in
+	[Yy]* ) break;;
+	[Nn]* ) continue;;
+	[Qq]* ) kill -SIGINT $$;;
+	* ) echo "***Error: answer [y]es, [n]o, or [q]uit.";;
+    esac
+done
+
 HOME=/home/ubuntu
 EBS=/mnt/ebs
 EMACS=$HOME/.emacs.d
@@ -15,16 +27,17 @@ sudo mount $EBS
 
 # Update for emacs repository and install all packages
 sudo add-apt-repository ppa:cassou/emacs
-sudo apt-get update -q
-sudo apt-get install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree octave
+sudo aptitude update -q
+sudo aptitude install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g express-generator stylus jade nodemon
 
 # Setup git, dot-files and custom
 git config --global push.default simple
 git config --global user.name "mkota"
+git config --global user.email $EMAIL
 
-ssh-keygen -t rsa -f $SSHFILE -N ""
+ssh-keygen -t rsa -f $SSHFILE -N "" -C $EMAIL
 ssh-agent /bin/bash
 ssh-add ~/.ssh/$SSHFILE
 cat ~/.ssh/$SSHFILE.pub
