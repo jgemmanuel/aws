@@ -1,14 +1,18 @@
 #!/bin/bash
 
+# Bold text by @psmears (http://stackoverflow.com/a/2924755)
+bold=`tput bold`
+normal=`tput sgr0`
+
 while true; do
-    read -p "Provide your email for the configuration: " EMAIL
-    echo "You entered: $EMAIL"
-    read -p "Should I proceed? [y/n/q]: " yn
+    read -p "${bold}Provide your email for the configuration${normal}: " EMAIL
+    echo "${bold}You entered${normal}: $EMAIL"
+    read -p "${bold}Should I proceed${normal}? [${bold}y${normal}/${bold}n${normal}/${bold}q${normal}]: " yn
     case $yn in
 	[Yy]* ) break;;
 	[Nn]* ) continue;;
 	[Qq]* ) kill -SIGINT $$;;
-	* ) echo "***Error: answer [y]es, [n]o, or [q]uit.";;
+	* ) echo "${bold}Error${normal}: answer [${bold}y${normal}]es, [${bold}n${normal}]o, or [${bold}q${normal}]uit.";;
     esac
 done
 
@@ -42,7 +46,7 @@ ssh-agent /bin/bash
 ssh-add ~/.ssh/$SSHFILE
 cat ~/.ssh/$SSHFILE.pub
 
-read -p "Setup github and hit ENTER"
+read -p "${bold}Setup github and hit ENTER${normal}"
 
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
 ln -sf $REPO/dotfiles/bashrc_custom ~/.bashrc_custom
@@ -96,4 +100,4 @@ EOF
 source ~/.profile
 source ~/.bashrc
 
-echo "Init done."
+echo "${bold}Init done${normal}."
