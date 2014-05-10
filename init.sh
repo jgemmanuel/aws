@@ -52,10 +52,9 @@ read -p "${bold}Setup github and hit ENTER${normal}"
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
 ln -sf $REPO/dotfiles/bashrc_custom ~/.bashrc_custom
 if [ ! -d "$EMACS" ]; then
-    ln -sf $REPO/dotfiles/emacs.d $EMACS
-else
-    ln -sf $REPO/dotfiles/emacs.d/* $EMACS/
+    mkdir -p $EMACS
 fi
+ln -sf $REPO/dotfiles/emacs.d/* $EMACS/
 ln -sf $REPO/dotfiles/screenrc ~/.screenrc
 ln -sf $REPO/dotfiles/latexmkrc ~/.latexmkrc
 ln -sf $REPO/dotfiles/octaverc ~/.octaverc
@@ -68,10 +67,11 @@ git clone https://github.com/brianc/jade-mode.git $EMACS/jade-mode
 git clone git@github.com:mkota/aws.git $REPO/aws
 wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -P $TEX
 tar xzvf $TEX/install-tl-unx.tar.gz -C $TEX
-cd $REPO/aws; git checkout -t origin/dev; cd ~
 sudo perl $TEX/install-tl-*/install-tl --profile $REPO/aws/texlive.profile
 rm -rf $TEX
-sudo env PATH=$PATH tlmgr install latexmk # fix this with tlmgr internal variables. also add standalone installation.
+PATH=/usr/local/texlive/2013/bin/x86_64-linux:$PATH
+sudo env PATH="$PATH" tlmgr path add
+sudo tlmgr install latexmk standalone
 
 git clone git@bitbucket.org:mkota/custom.git $REPO/custom
 mkdir -p ~/texmf/tex/latex
