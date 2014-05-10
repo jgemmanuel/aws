@@ -20,7 +20,8 @@ HOME=/home/ubuntu
 EBS=/mnt/ebs
 EMACS=$HOME/.emacs.d
 REPO=$HOME/repos
-SSHFILE=id_rsa
+SSHFILE=$HOME/.ssh/id_rsa
+TEX=$HOME/tmp-texlive
 
 sudo locale-gen en_GB.UTF-8
 
@@ -30,7 +31,7 @@ echo "/dev/xvdf /mnt/ebs auto noatime 0 0" | sudo tee -a /etc/fstab
 sudo mount $EBS
 
 # Update for emacs repository and install all packages
-sudo add-apt-repository ppa:cassou/emacs
+sudo add-apt-repository -y ppa:cassou/emacs
 sudo aptitude update -q
 sudo aptitude install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell r-base ess nodejs npm tree octave
 sudo ln -s /usr/bin/nodejs /usr/bin/node
@@ -42,15 +43,19 @@ git config --global user.name "mkota"
 git config --global user.email $EMAIL
 
 ssh-keygen -t rsa -f $SSHFILE -N "" -C $EMAIL
-ssh-agent /bin/bash
-ssh-add ~/.ssh/$SSHFILE
-cat ~/.ssh/$SSHFILE.pub
+eval `ssh-agent`
+ssh-add $SSHFILE
+cat $SSHFILE.pub
 
 read -p "${bold}Setup github and hit ENTER${normal}"
 
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
 ln -sf $REPO/dotfiles/bashrc_custom ~/.bashrc_custom
-ln -sf $REPO/dotfiles/emacs.d $EMACS
+if [ ! -d "$EMACS" ]; then
+    ln -sf $REPO/dotfiles/emacs.d $EMACS
+else
+    ln -sf $REPO/dotfiles/emacs.d/* $EMACS/
+fi
 ln -sf $REPO/dotfiles/screenrc ~/.screenrc
 ln -sf $REPO/dotfiles/latexmkrc ~/.latexmkrc
 ln -sf $REPO/dotfiles/octaverc ~/.octaverc
@@ -60,12 +65,12 @@ wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-m
 git clone https://github.com/brianc/jade-mode.git $EMACS/jade-mode
 
 # texlive
-TMP=$HOME/tmp-texlive
-git clone git@github.org:mkota/aws.git $REPO/aws
-wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -P $TMP
-tar xzvf $TMP/install-tl-unx.tar.gz -d $TMP
-sudo perl $TMP/install-tl-20140417/install-tl --profile $REPO/aws/texlive.profile
-rm -rf $TMP
+git clone git@github.com:mkota/aws.git $REPO/aws
+wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -P $TEX
+tar xzvf $TEX/install-tl-unx.tar.gz -C $TEX
+cd $REPO/aws; git checkout -t origin/dev; cd ~
+sudo perl $TEX/install-tl-*/install-tl --profile $REPO/aws/texlive.profile
+rm -rf $TEX
 sudo env PATH=$PATH tlmgr install latexmk # fix this with tlmgr internal variables. also add standalone installation.
 
 git clone git@bitbucket.org:mkota/custom.git $REPO/custom
@@ -98,6 +103,5 @@ if [ -f ~/.bashrc_custom ]; then
 fi
 EOF
 source ~/.profile
-source ~/.bashrc
 
 echo "${bold}Init done${normal}."
