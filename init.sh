@@ -71,6 +71,7 @@ sudo perl $TEX/install-tl-*/install-tl --profile $REPO/aws/texlive.profile
 rm -rf $TEX
 PATH=/usr/local/texlive/2013/bin/x86_64-linux:$PATH
 sudo env PATH="$PATH" tlmgr path add
+# sudo tlmgr conf texmf TEXMFHOME "~/.local/share/texlive/texmf:~/texmf"
 sudo tlmgr install latexmk standalone
 
 git clone git@bitbucket.org:mkota/custom.git $REPO/custom
