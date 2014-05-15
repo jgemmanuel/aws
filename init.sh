@@ -59,10 +59,6 @@ ln -sf $REPO/dotfiles/screenrc ~/.screenrc
 ln -sf $REPO/dotfiles/latexmkrc ~/.latexmkrc
 ln -sf $REPO/dotfiles/octaverc ~/.octaverc
 
-wget http://adamspiers.org/computing/elisp/smooth-scrolling.el -P $EMACS
-wget https://raw.githubusercontent.com/winterTTr/ace-jump-mode/master/ace-jump-mode.el -P $EMACS
-git clone https://github.com/brianc/jade-mode.git $EMACS/jade-mode
-
 # texlive
 git clone git@github.com:mkota/aws.git $REPO/aws
 wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -P $TEX
