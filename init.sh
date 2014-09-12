@@ -37,10 +37,11 @@ sudo aptitude install -yq emacs24 emacs24-el emacs24-common-non-dfsg git aspell 
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g express-generator stylus jade nodemon
 
-# Setup git, dot-files and custom
-git config --global push.default simple
-git config --global user.name "mkota"
-git config --global user.email $EMAIL
+# # Setup git, dot-files and custom
+# git config --global push.default simple
+# git config --global user.name "JG Emmanuel"
+# git config --global user.email $EMAIL
+# git config --global user.username "mkota"
 
 ssh-keygen -t rsa -f $SSHFILE -N "" -C $EMAIL
 eval `ssh-agent`
@@ -50,6 +51,7 @@ cat $SSHFILE.pub
 read -p "${bold}Setup github and hit ENTER${normal}"
 
 git clone git@github.com:mkota/dotfiles.git $REPO/dotfiles
+ln -sf $REPO/dotfiles/gitconfig ~/.gitconfig
 ln -sf $REPO/dotfiles/bashrc_custom ~/.bashrc_custom
 if [ ! -d "$EMACS" ]; then
     mkdir -p $EMACS
@@ -74,7 +76,7 @@ git clone git@bitbucket.org:mkota/custom.git $REPO/custom
 mkdir -p ~/texmf/tex/latex
 ln -sf $REPO/custom/latex/*.sty ~/texmf/tex/latex/
 
-# Cron
+# # Cron
 # sudo cp $REPO/aws/backup /etc/cron.hourly/
 # sudo chmod +x /etc/cron.hourly/backup
 
